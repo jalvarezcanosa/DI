@@ -1,6 +1,5 @@
 import tkinter as tk
 
-
 def mostrar_etiqueta():
     texto_entrada = entrada.get()
     etiqueta1.config(text=f"{texto_entrada}")
