@@ -1,7 +1,7 @@
 import random
 import tkinter as tk
 from tkinter import messagebox
-
+from tkinter import PhotoImage
 
 def jugar(opcion_elegida):
     opciones = ["piedra", "papel", "tijera"]
@@ -42,6 +42,9 @@ def reiniciar_juego():
     resultado_ronda.set("¡Haz tu jugada para empezar!")
 
 root = tk.Tk()
+img_piedra = tk.PhotoImage(file="piedra.png")
+img_papel = tk.PhotoImage(file="papel.png")
+img_tijera = tk.PhotoImage(file="tijera.png")
 root.title("Piedra, Papel o Tijera")
 
 marcador_jugador = tk.IntVar(value=0)
@@ -74,9 +77,9 @@ tk.Label(frame_juego, textvariable=eleccion_maquina).pack()
 
 tk.Label(frame_juego, textvariable=resultado_ronda).pack()
 
-boton_piedra = tk.Button(frame_juego, text="Piedra", command=lambda: jugar("piedra"))
-boton_papel = tk.Button(frame_juego, text="Papel", command=lambda: jugar("papel"))
-boton_tijera = tk.Button(frame_juego, text="Tijera", command=lambda: jugar("tijera"))
+boton_piedra = tk.Button(frame_juego, image=img_piedra, command=lambda: jugar("piedra"))
+boton_papel = tk.Button(frame_juego, image=img_papel, command=lambda: jugar("papel"))
+boton_tijera = tk.Button(frame_juego, image=img_tijera, command=lambda: jugar("tijera"))
 
 boton_piedra.pack()
 boton_papel.pack()
