@@ -17,31 +17,10 @@ public class DetailViewsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
+
         setContentView(R.layout.activity_detail_views);
 
         layout = findViewById(R.id.detail_layout);
-
-        int orientation = getResources().getConfiguration().orientation;
-        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            setupLandscapeLayout();
-        }else {
-            setupPortraitLayout();
-        }
-
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
-
-    }
-
-    private void setupPortraitLayout() {
-
-    }
-
-    private void setupLandscapeLayout() {
 
     }
 }
