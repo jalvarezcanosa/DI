@@ -1,5 +1,18 @@
 import csv
+from PIL import Image
+import customtkinter as ctk
+from pathlib import Path
 
+BASE_DIR = Path(__file__).resolve().parent
+ruta_avatar1 = BASE_DIR / "assets" / "avatar1.png"
+
+app = ctk.CTk()
+
+avatar1 = ctk.CTkImage(
+    light_image=Image.open(ruta_avatar1),
+    dark_image=Image.open(ruta_avatar1),
+    size=(120, 120)
+)
 
 class Usuario:
     def __init__(self, nombre: str, edad: int, genero: str, avatar: str):
@@ -36,3 +49,5 @@ class GestorUsuarios:
             lector = csv.reader(f)
             for fila in lector:
                 print(fila)
+
+app.mainloop()
