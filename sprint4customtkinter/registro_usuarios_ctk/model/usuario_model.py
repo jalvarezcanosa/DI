@@ -1,5 +1,5 @@
 import csv
-from PIL import Image
+#from PIL import Image
 import customtkinter as ctk
 from pathlib import Path
 
@@ -8,11 +8,11 @@ ruta_avatar1 = BASE_DIR / "assets" / "avatar1.png"
 
 app = ctk.CTk()
 
-avatar1 = ctk.CTkImage(
-    light_image=Image.open(ruta_avatar1),
-    dark_image=Image.open(ruta_avatar1),
-    size=(120, 120)
-)
+#avatar1 = ctk.CTkImage(
+#    light_image=Image.open(ruta_avatar1),
+#    dark_image=Image.open(ruta_avatar1),
+#    size=(120, 120)
+#)
 
 class Usuario:
     def __init__(self, nombre: str, edad: int, genero: str, avatar: str):
@@ -21,7 +21,7 @@ class Usuario:
         self.genero = genero
         self.avatar = avatar #"../assets/avatar1.png"  # ruta relativa en assets/
 
-class GestorUsuarios:
+class UsuariosModel:
     def __init__(self):
         self._usuarios = []  # lista de Usuario
 
