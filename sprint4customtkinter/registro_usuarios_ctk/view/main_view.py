@@ -22,7 +22,7 @@ class AddUserView:
         self.edad_entry = ctk.CTkEntry(self.window, width=200)
         self.edad_entry.pack(pady=5)
 
-        # --- Género con RadioButtons ---
+
         ctk.CTkLabel(self.window, text="Género:").pack(pady=(10, 5))
         self.genero_var = ctk.StringVar(value="Otro")
         
@@ -34,7 +34,6 @@ class AddUserView:
                 value=genero
             ).pack(anchor="w", padx=20, pady=2)
 
-        # --- Avatar con RadioButtons ---
         ctk.CTkLabel(self.window, text="Avatar:").pack(pady=(10, 5))
         self.avatar_var = ctk.StringVar(value="avatar1")
         
@@ -88,6 +87,15 @@ class MainView:
             font=("Arial", 22, "bold")
         )
         self.title_usuarios.pack(pady=(5, 10))
+
+        # Campo de búsqueda
+        ctk.CTkLabel(self.left_frame, text="Buscar:").pack(pady=(5, 2))
+        self.busqueda_var = ctk.StringVar()
+        self.busqueda_entry = ctk.CTkEntry(
+            self.left_frame,
+            textvariable=self.busqueda_var
+        )
+        self.busqueda_entry.pack(pady=(2, 10), padx=5, fill="x")
 
         self.lista_frame = ctk.CTkScrollableFrame(self.left_frame)
         self.lista_frame.pack(fill="both", expand=True, padx=5, pady=5)
