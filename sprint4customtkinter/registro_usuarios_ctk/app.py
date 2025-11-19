@@ -1,6 +1,5 @@
 import customtkinter as ctk
 from registro_usuarios_ctk.controller.app_controller import AppController
-from registro_usuarios_ctk.view.main_view import MainView
 
 if __name__ == "__main__":
     ctk.set_appearance_mode("System")
@@ -8,7 +7,7 @@ if __name__ == "__main__":
 
     app = ctk.CTk()
     app.title("Registro de Usuarios (CTk + MVC)")
-    app.geometry("900x600")
+    app.geometry("900x500")
 
-    main_view = MainView(app)
+    controller = AppController(app)
     app.mainloop()

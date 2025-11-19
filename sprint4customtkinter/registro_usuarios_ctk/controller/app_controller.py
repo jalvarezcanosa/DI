@@ -1,7 +1,22 @@
-from registro_usuarios_ctk.model.usuario_model import UsuariosModel
+from registro_usuarios_ctk.model.usuario_model import GestorUsuarios
 from registro_usuarios_ctk.view.main_view import MainView
 
 class AppController:
-    def __init__(self, root):
-        self.root = root()
-        self.model = UsuariosModel()
+    def __init__(self, master):
+        self.master = master
+
+        self.modelo = GestorUsuarios()
+        self.view = MainView(master)
+
+        self.refrescar_lista_usuarios()
+
+    def refrescar_lista_usuarios(self):
+        usuarios = self.modelo.listar()
+        self.view.actualizar_lista_usuarios(
+            usuarios,
+            self.seleccionar_usuario
+        )
+
+    def seleccionar_usuario(self, indice):
+        usuario = self.modelo.obtener(indice)
+        self.view.mostrar_detalles_usuario(usuario)
