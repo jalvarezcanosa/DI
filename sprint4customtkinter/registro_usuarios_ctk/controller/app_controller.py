@@ -24,6 +24,7 @@ class AppController:
 
         self.view.bind_add_user_button(self.abrir_ventana_añadir)
         self.view.bind_autosave_button(self.toggle_autosave)
+        self.view.bind_exit_button(self.salir)
 
         self.view.busqueda_var.trace_add("write", self._on_busqueda_cambio)
         self.view.genero_filtro_var.trace_add("write", self._on_busqueda_cambio)

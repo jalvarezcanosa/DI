@@ -241,6 +241,13 @@ class MainView:
         )
         self.btn_autosave.pack(side="left", padx=5, pady=10)
 
+        # Botón Salir a la derecha
+        self.btn_exit = ctk.CTkButton(
+            self.botones_frame,
+            text="Salir"
+        )
+        self.btn_exit.pack(side="right", padx=5, pady=10)
+
     def actualizar_lista_usuarios(self, usuarios, on_seleccionar_callback, on_doble_clic_callback=None):
         for widget in self.lista_frame.winfo_children():
             widget.destroy()
@@ -266,6 +273,9 @@ class MainView:
 
     def bind_autosave_button(self, callback):
         self.btn_autosave.configure(command=callback)
+
+    def bind_exit_button(self, callback):
+        self.btn_exit.configure(command=callback)
 
     def actualizar_boton_autosave(self, activo: bool):
         if activo:
