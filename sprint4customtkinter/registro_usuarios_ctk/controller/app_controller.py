@@ -5,6 +5,7 @@ from PIL import Image, ImageTk
 
 from model.usuario_model import GestorUsuarios, Usuario
 from view.main_view import MainView, AddUserView, EditUserView
+from controller.autosave_thread import AutosaveThread
 
 class AppController:
     def __init__(self, master):
@@ -17,8 +18,12 @@ class AppController:
         self.ASSETS_PATH = self.BASE_DIR / "assets"
 
         self.avatar_images = {}
+        
+        self.autosave_thread = None
+        self.autosave_activo = False
 
         self.view.bind_add_user_button(self.abrir_ventana_añadir)
+        self.view.bind_autosave_button(self.toggle_autosave)
 
         self.view.busqueda_var.trace_add("write", self._on_busqueda_cambio)
         self.view.genero_filtro_var.trace_add("write", self._on_busqueda_cambio)
@@ -26,7 +31,7 @@ class AppController:
         self.view.menu_archivo.add_command(label="Guardar", command=self.guardar_usuarios)
         self.view.menu_archivo.add_command(label="Cargar", command=self.cargar_usuarios)
         self.view.menu_archivo.add_separator()
-        self.view.menu_archivo.add_command(label="Salir", command=master.quit)
+        self.view.menu_archivo.add_command(label="Salir", command=self.salir)
 
         self.cargar_usuarios()
 
@@ -159,3 +164,34 @@ class AppController:
             self.view.actualizar_status(f"Cargado OK: {total} usuarios", color="green")
         except Exception as e:
             self.view.actualizar_status(f"Error al cargar: {str(e)}", color="red")
+
+    def toggle_autosave(self):
+        if self.autosave_activo:
+            self.detener_autosave()
+        else:
+            self.iniciar_autosave()
+
+    def iniciar_autosave(self):
+        if not self.autosave_activo:
+            self.autosave_activo = True
+            self.autosave_thread = AutosaveThread(
+                self.modelo,
+                self._actualizar_status_desde_thread
+            )
+            self.autosave_thread.start()
+            self.view.actualizar_boton_autosave(True)
+
+    def detener_autosave(self):
+        if self.autosave_activo and self.autosave_thread:
+            self.autosave_activo = False
+            self.autosave_thread.stop()
+            self.autosave_thread.join(timeout=2)
+            self.view.actualizar_boton_autosave(False)
+
+    def _actualizar_status_desde_thread(self, mensaje: str, color: str = "gray"):
+        self.master.after(0, lambda: self.view.actualizar_status(mensaje, color))
+
+    def salir(self):
+        if self.autosave_activo:
+            self.detener_autosave()
+        self.master.quit()

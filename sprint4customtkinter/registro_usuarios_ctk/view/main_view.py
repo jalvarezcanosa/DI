@@ -22,7 +22,6 @@ class AddUserView:
         self.edad_entry = ctk.CTkEntry(self.window, width=200)
         self.edad_entry.pack(pady=5)
 
-
         ctk.CTkLabel(self.window, text="Género:").pack(pady=(10, 5))
         self.genero_var = ctk.StringVar(value="Otro")
         
@@ -233,7 +232,14 @@ class MainView:
             self.botones_frame,
             text="Añadir usuario"
         )
-        self.btn_add_user.pack(pady=10)
+        self.btn_add_user.pack(side="left", padx=5, pady=10)
+
+        self.btn_autosave = ctk.CTkButton(
+            self.botones_frame,
+            text="Auto-guardado(10s): OFF",
+            fg_color="gray"
+        )
+        self.btn_autosave.pack(side="left", padx=5, pady=10)
 
     def actualizar_lista_usuarios(self, usuarios, on_seleccionar_callback, on_doble_clic_callback=None):
         for widget in self.lista_frame.winfo_children():
@@ -257,6 +263,15 @@ class MainView:
 
     def bind_add_user_button(self, callback):
         self.btn_add_user.configure(command=callback)
+
+    def bind_autosave_button(self, callback):
+        self.btn_autosave.configure(command=callback)
+
+    def actualizar_boton_autosave(self, activo: bool):
+        if activo:
+            self.btn_autosave.configure(text="Auto-guardado: ON", fg_color="green")
+        else:
+            self.btn_autosave.configure(text="Auto-guardado: OFF", fg_color="gray")
 
     def actualizar_status(self, mensaje: str, color: str = "gray"):
         self.status_label.configure(text=mensaje, text_color=color)
