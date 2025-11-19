@@ -28,8 +28,8 @@ class GestorUsuarios:
 
 
     def _cargar_datos_de_ejemplo(self):
-        self._usuarios.append(Usuario("Ana", 28, "F", None))
-        self._usuarios.append(Usuario("Luis", 35, "M", None))
+        self._usuarios.append(Usuario("Ana", 28, "F", "avatar1.png"))
+        self._usuarios.append(Usuario("Luis", 35, "M", "avatar2.png"))
 
 
     def listar(self):
