@@ -73,13 +73,37 @@ class MainView:
         self.menu_archivo = tkinter.Menu(self.menubar, tearoff=0)
         self.menubar.add_cascade(label="Archivo", menu=self.menu_archivo)
 
-        master.grid_rowconfigure(0, weight=1)
+        master.grid_rowconfigure(1, weight=1)
         master.grid_columnconfigure(0, weight=1)
         master.grid_columnconfigure(1, weight=3)
 
+        #Panel superior
+        self.top_frame = ctk.CTkFrame(master)
+        self.top_frame.grid(row=0, column=0, columnspan=2, sticky="ew", padx=10, pady=10)
+
+        ctk.CTkLabel(self.top_frame, text="Buscar:").pack(side="left", padx=5)
+        self.busqueda_var = ctk.StringVar()
+        self.busqueda_entry = ctk.CTkEntry(
+            self.top_frame,
+            textvariable=self.busqueda_var,
+            width=200
+        )
+        self.busqueda_entry.pack(side="left", padx=5)
+
+        ctk.CTkLabel(self.top_frame, text="Género:").pack(side="left", padx=5)
+        self.genero_filtro_var = ctk.StringVar(value="Todos")
+        self.genero_filtro_menu = ctk.CTkComboBox(
+            self.top_frame,
+            values=["Todos", "Masculino", "Femenino", "Otro"],
+            variable=self.genero_filtro_var,
+            state="readonly",
+            width=150
+        )
+        self.genero_filtro_menu.pack(side="left", padx=5)
+
         #Panel izquierdo
         self.left_frame = ctk.CTkFrame(master)
-        self.left_frame.grid(row=0, column=0, sticky="nsew", padx=10, pady=10)
+        self.left_frame.grid(row=1, column=0, sticky="nsew", padx=10, pady=10)
 
         self.title_usuarios = ctk.CTkLabel(
             self.left_frame,
@@ -88,29 +112,14 @@ class MainView:
         )
         self.title_usuarios.pack(pady=(5, 10))
 
-        # Campo de búsqueda
-        ctk.CTkLabel(self.left_frame, text="Buscar:").pack(pady=(5, 2))
-        self.busqueda_var = ctk.StringVar()
-        self.busqueda_entry = ctk.CTkEntry(
-            self.left_frame,
-            textvariable=self.busqueda_var
-        )
-        self.busqueda_entry.pack(pady=(2, 10), padx=5, fill="x")
-
         self.lista_frame = ctk.CTkScrollableFrame(self.left_frame)
         self.lista_frame.pack(fill="both", expand=True, padx=5, pady=5)
 
         self.label_usuarios = ctk.CTkLabel(self.lista_frame)
 
-        self.btn_add_user = ctk.CTkButton(
-            self.left_frame,
-            text="Añadir usuario"
-        )
-        self.btn_add_user.pack(pady=10)
-
         #Panel derecho
         self.detalles_frame = ctk.CTkFrame(master)
-        self.detalles_frame.grid(row=0, column=1, sticky="nsew", padx=10, pady=10)
+        self.detalles_frame.grid(row=1, column=1, sticky="nsew", padx=10, pady=10)
 
         self.title_detalles = ctk.CTkLabel(
             self.detalles_frame,
@@ -131,6 +140,16 @@ class MainView:
         self.label_genero = ctk.CTkLabel(self.detalles_frame, text="Género: ")
         self.label_genero.pack(anchor="w", pady=5)
 
+        #Panel inferior
+        self.botones_frame = ctk.CTkFrame(master)
+        self.botones_frame.grid(row=2, column=0, columnspan=2, sticky="ew", padx=10, pady=10)
+
+        self.btn_add_user = ctk.CTkButton(
+            self.botones_frame,
+            text="Añadir usuario"
+        )
+        self.btn_add_user.pack(pady=10)
+
     def actualizar_lista_usuarios(self, usuarios, on_seleccionar_callback):
         for widget in self.lista_frame.winfo_children():
             widget.destroy()
@@ -150,3 +169,5 @@ class MainView:
 
     def bind_add_user_button(self, callback):
         self.btn_add_user.configure(command=callback)
+
+        

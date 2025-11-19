@@ -21,6 +21,7 @@ class AppController:
         self.view.bind_add_user_button(self.abrir_ventana_añadir)
 
         self.view.busqueda_var.trace_add("write", self._on_busqueda_cambio)
+        self.view.genero_filtro_var.trace_add("write", self._on_busqueda_cambio)
 
         self.view.menu_archivo.add_command(label="Guardar", command=self.guardar_usuarios)
         self.view.menu_archivo.add_command(label="Cargar", command=self.cargar_usuarios)
@@ -42,11 +43,14 @@ class AppController:
     def refrescar_lista_usuarios(self):
         usuarios = self.modelo.listar()
         
-        # Obtener término de búsqueda
         busqueda = self.view.busqueda_var.get().lower()
         
-        # Filtrar por nombre
-        usuarios_filtrados = [u for u in usuarios if busqueda in u.nombre.lower()]
+        genero_filtro = self.view.genero_filtro_var.get()
+        
+        usuarios_filtrados = [
+            u for u in usuarios 
+            if busqueda in u.nombre.lower() and (genero_filtro == "Todos" or u.genero == genero_filtro)
+        ]
         
         self.view.actualizar_lista_usuarios(
             usuarios_filtrados,
