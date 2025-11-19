@@ -20,7 +20,12 @@ class AppController:
 
         self.view.bind_add_user_button(self.abrir_ventana_añadir)
 
-        self.refrescar_lista_usuarios()
+        self.view.menu_archivo.add_command(label="Guardar", command=self.guardar_usuarios)
+        self.view.menu_archivo.add_command(label="Cargar", command=self.cargar_usuarios)
+        self.view.menu_archivo.add_separator()
+        self.view.menu_archivo.add_command(label="Salir", command=master.quit)
+
+        self.cargar_usuarios()
 
     def abrir_ventana_añadir(self):
         add_view = AddUserView(self.master)
@@ -48,7 +53,6 @@ class AppController:
 
             tk_img = ImageTk.PhotoImage(img)
 
-            # guardar referencia para que no desaparezca
             self.avatar_images[usuario.nombre] = tk_img
 
             self.view.avatar_label.configure(image=tk_img)
@@ -58,7 +62,6 @@ class AppController:
     def añadir_usuario(self, add_view: AddUserView):
         datos = add_view.get_data()
 
-        # Validación básica
         if datos["nombre"].strip() == "":
             messagebox.showerror("Error", "El nombre no puede estar vacío.")
             return
@@ -69,7 +72,6 @@ class AppController:
             messagebox.showerror("Error", "La edad debe ser un número.")
             return
 
-        # Crear usuario
         nuevo = Usuario(
             nombre=datos["nombre"],
             edad=edad,
@@ -81,3 +83,14 @@ class AppController:
         self.refrescar_lista_usuarios()
 
         add_view.window.destroy()
+
+    def guardar_usuarios(self):
+        """Guarda la lista de usuarios en CSV."""
+        self.modelo.guardar_csv()
+        messagebox.showinfo("Éxito", "Usuarios guardados correctamente.")
+
+    def cargar_usuarios(self):
+        """Carga la lista de usuarios desde CSV."""
+        self.modelo.cargar_csv()
+        self.refrescar_lista_usuarios()
+        messagebox.showinfo("Éxito", "Usuarios cargados correctamente.")
