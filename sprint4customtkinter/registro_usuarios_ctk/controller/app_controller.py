@@ -56,6 +56,13 @@ class AppController:
             usuarios_filtrados,
             self.seleccionar_usuario
         )
+        
+        total = len(usuarios)
+        mostrados = len(usuarios_filtrados)
+        self.view.actualizar_status(
+            f"Total: {total} usuarios | Mostrados: {mostrados}",
+            color="gray"
+        )
 
     def seleccionar_usuario(self, indice):
         usuario = self.modelo.obtener(indice)
@@ -78,12 +85,14 @@ class AppController:
 
         if datos["nombre"].strip() == "":
             messagebox.showerror("Error", "El nombre no puede estar vacío.")
+            self.view.actualizar_status("Error: nombre vacío", color="red")
             return
 
         try:
             edad = int(datos["edad"])
         except ValueError:
             messagebox.showerror("Error", "La edad debe ser un número.")
+            self.view.actualizar_status("Error: edad no válida", color="red")
             return
 
         nuevo = Usuario(
@@ -95,16 +104,23 @@ class AppController:
 
         self.modelo.añadir(nuevo)
         self.refrescar_lista_usuarios()
+        self.view.actualizar_status(f"Usuario '{datos['nombre']}' agregado", color="green")
 
         add_view.window.destroy()
 
     def guardar_usuarios(self):
-        """Guarda la lista de usuarios en CSV."""
-        self.modelo.guardar_csv()
-        messagebox.showinfo("Éxito", "Usuarios guardados correctamente.")
+        try:
+            self.modelo.guardar_csv()
+            total = len(self.modelo.listar())
+            self.view.actualizar_status(f"Guardado OK: {total} usuarios", color="green")
+        except Exception as e:
+            self.view.actualizar_status(f"Error al guardar: {str(e)}", color="red")
 
     def cargar_usuarios(self):
-        """Carga la lista de usuarios desde CSV."""
-        self.modelo.cargar_csv()
-        self.refrescar_lista_usuarios()
-        messagebox.showinfo("Éxito", "Usuarios cargados correctamente.")
+        try:
+            self.modelo.cargar_csv()
+            self.refrescar_lista_usuarios()
+            total = len(self.modelo.listar())
+            self.view.actualizar_status(f"Cargado OK: {total} usuarios", color="green")
+        except Exception as e:
+            self.view.actualizar_status(f"Error al cargar: {str(e)}", color="red")

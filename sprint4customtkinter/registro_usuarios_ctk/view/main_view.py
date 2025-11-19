@@ -140,9 +140,21 @@ class MainView:
         self.label_genero = ctk.CTkLabel(self.detalles_frame, text="Género: ")
         self.label_genero.pack(anchor="w", pady=5)
 
+        # Barra de estado
+        self.status_frame = ctk.CTkFrame(master)
+        self.status_frame.grid(row=2, column=0, columnspan=2, sticky="ew", padx=10, pady=5)
+
+        self.status_label = ctk.CTkLabel(
+            self.status_frame,
+            text="Listos",
+            anchor="center",
+            text_color="gray"
+        )
+        self.status_label.pack(side="left", fill="x", expand=True)
+
         #Panel inferior
         self.botones_frame = ctk.CTkFrame(master)
-        self.botones_frame.grid(row=2, column=0, columnspan=2, sticky="ew", padx=10, pady=10)
+        self.botones_frame.grid(row=3, column=0, columnspan=2, sticky="ew", padx=10, pady=10)
 
         self.btn_add_user = ctk.CTkButton(
             self.botones_frame,
@@ -169,5 +181,8 @@ class MainView:
 
     def bind_add_user_button(self, callback):
         self.btn_add_user.configure(command=callback)
+
+    def actualizar_status(self, mensaje: str, color: str = "gray"):
+        self.status_label.configure(text=mensaje, text_color=color)
 
         
