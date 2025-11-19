@@ -28,9 +28,9 @@ class GestorUsuarios:
 
 
     def _cargar_datos_de_ejemplo(self):
-        self._usuarios.append(Usuario("Ana García", 28, "F", "avatar1.png"))
-        self._usuarios.append(Usuario("Luis Pérez", 35, "M", "avatar2.png"))
-        self._usuarios.append(Usuario("Sofía Romero", 35, "F", "avatar3.png"))
+        self._usuarios.append(Usuario("Ana García", 28, "F", str(BASE_DIR / "assets/avatar1.png")))
+        self._usuarios.append(Usuario("Luis Pérez", 35, "M", str(BASE_DIR / "assets/avatar2.png")))
+        self._usuarios.append(Usuario("Sofía Romero", 35, "F", str(BASE_DIR / "assets/avatar3.png")))
 
 
     def listar(self):
@@ -39,3 +39,6 @@ class GestorUsuarios:
 
     def obtener(self, indice):
         return self._usuarios[indice]
+
+    def añadir(self, usuario):
+        self._usuarios.append(usuario)

@@ -1,5 +1,6 @@
 import customtkinter as ctk
-from registro_usuarios_ctk.controller.app_controller import AppController
+
+from controller.app_controller import AppController
 
 if __name__ == "__main__":
     ctk.set_appearance_mode("System")
