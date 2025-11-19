@@ -1,5 +1,5 @@
 from pathlib import Path
-
+import tkinter
 import customtkinter as ctk
 
 class AddUserView:
@@ -66,6 +66,13 @@ class AddUserView:
 class MainView:
     def __init__(self, master: ctk.CTk):
         self.master = master
+
+        #Barra de Menú
+        self.menubar = tkinter.Menu(master)
+        master.config(menu=self.menubar)
+        
+        self.menu_archivo = tkinter.Menu(self.menubar, tearoff=0)
+        self.menubar.add_cascade(label="Archivo", menu=self.menu_archivo)
 
         master.grid_rowconfigure(0, weight=1)
         master.grid_columnconfigure(0, weight=1)
