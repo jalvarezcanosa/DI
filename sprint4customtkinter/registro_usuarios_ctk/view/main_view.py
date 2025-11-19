@@ -1,5 +1,33 @@
 import customtkinter as ctk
 
+class AddUserView:
+    def __init__(self, master):
+        self.window = ctk.CTkToplevel(master)
+        self.window.title("Añadir Nuevo Usuario")
+        self.window.geometry("300x400")
+        self.window.grab_set()  # La vuelve modal
+
+        ctk.CTkLabel(self.window, text="Nombre:").pack(pady=5)
+        self.nombre_entry = ctk.CTkEntry(self.window, width=200)
+        self.nombre_entry.pack(pady=5)
+
+        ctk.CTkLabel(self.window, text="Edad:").pack(pady=5)
+        self.edad_entry = ctk.CTkEntry(self.window, width=200)
+        self.edad_entry.pack(pady=5)
+
+        self.guardar_button = ctk.CTkButton(
+            self.window,
+            text="Guardar"
+        )
+        self.guardar_button.pack(pady=20)
+
+    def get_data(self):
+        return {
+            "nombre": self.nombre_entry.get(),
+            "edad": self.edad_entry.get(),
+            "avatar": self.avatar_path
+        }
+
 class MainView:
     def __init__(self, master: ctk.CTk):
         self.master = master
