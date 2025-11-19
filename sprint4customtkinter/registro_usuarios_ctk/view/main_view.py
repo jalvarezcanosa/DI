@@ -1,3 +1,5 @@
+from tkinter import filedialog
+
 import customtkinter as ctk
 
 class AddUserView:
@@ -7,6 +9,7 @@ class AddUserView:
         self.window.geometry("300x400")
         self.window.grab_set()  # La vuelve modal
 
+        # ----------- Widgets -----------
         ctk.CTkLabel(self.window, text="Nombre:").pack(pady=5)
         self.nombre_entry = ctk.CTkEntry(self.window, width=200)
         self.nombre_entry.pack(pady=5)
@@ -14,6 +17,15 @@ class AddUserView:
         ctk.CTkLabel(self.window, text="Edad:").pack(pady=5)
         self.edad_entry = ctk.CTkEntry(self.window, width=200)
         self.edad_entry.pack(pady=5)
+
+        ctk.CTkLabel(self.window, text="Avatar:").pack(pady=5)
+        self.avatar_path = None
+        self.avatar_button = ctk.CTkButton(
+            self.window,
+            text="Seleccionar Imagen",
+            command=self.seleccionar_avatar
+        )
+        self.avatar_button.pack(pady=5)
 
         self.guardar_button = ctk.CTkButton(
             self.window,
@@ -27,6 +39,14 @@ class AddUserView:
             "edad": self.edad_entry.get(),
             "avatar": self.avatar_path
         }
+
+    def seleccionar_avatar(self):
+        path = filedialog.askopenfilename(
+            filetypes=[("avatar", "*.png")]
+        )
+        if path:
+            self.avatar_path = path
+            self.avatar_button.configure(text="Imagen seleccionada")
 
 class MainView:
     def __init__(self, master: ctk.CTk):
@@ -52,6 +72,12 @@ class MainView:
 
         self.label_usuarios = ctk.CTkLabel(self.lista_frame)
 
+        self.btn_add_user = ctk.CTkButton(
+            self.left_frame,
+            text="Añadir usuario"
+        )
+        self.btn_add_user.pack(pady=10)
+
         #Panel derecho
         self.detalles_frame = ctk.CTkFrame(master)
         self.detalles_frame.grid(row=0, column=1, sticky="nsew", padx=10, pady=10)
@@ -62,6 +88,9 @@ class MainView:
             font=("Arial", 22, "bold")
         )
         self.title_detalles.pack()
+
+        self.avatar_label = ctk.CTkLabel(self.detalles_frame, text="")
+        self.avatar_label.pack(pady=10)
 
         self.label_nombre = ctk.CTkLabel(self.detalles_frame, text="Nombre: ")
         self.label_nombre.pack(anchor="w", pady=5)
@@ -88,3 +117,6 @@ class MainView:
         self.label_nombre.configure(text=f"Nombre: {usuario.nombre}")
         self.label_edad.configure(text=f"Edad: {usuario.edad}")
         self.label_genero.configure(text=f"Género: {usuario.genero}")
+
+    def bind_add_user_button(self, callback):
+        self.btn_add_user.configure(command=callback)
