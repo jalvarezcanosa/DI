@@ -1,7 +1,7 @@
 import csv
 from pathlib import Path
 
-BASE_DIR = Path(__file__).resolve().parent
+BASE_DIR = Path(__file__).resolve().parent.parent
 CSV_PATH = BASE_DIR / "usuarios.csv"
 
 class Usuario:
@@ -35,9 +35,7 @@ class GestorUsuarios:
         try:
             with open(CSV_PATH, 'w', newline='', encoding='utf-8') as archivo:
                 writer = csv.writer(archivo)
-                # Escribir cabecera
                 writer.writerow(["Nombre", "Edad", "Género", "Avatar"])
-                # Escribir datos de usuarios
                 for usuario in self._usuarios:
                     writer.writerow([usuario.nombre, usuario.edad, usuario.genero, usuario.avatar])
         except Exception as e:
@@ -48,11 +46,8 @@ class GestorUsuarios:
         try:
             with open(CSV_PATH, 'r', encoding='utf-8') as archivo:
                 lector = csv.reader(archivo)
-                # Saltar la cabecera
                 next(lector)
-                # Limpiar la lista actual
                 self._usuarios.clear()
-                # Leer cada fila
                 for fila in lector:
                     try:
                         if len(fila) == 4:

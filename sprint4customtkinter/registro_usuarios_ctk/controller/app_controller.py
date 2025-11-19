@@ -34,8 +34,6 @@ class AppController:
             command=lambda: self.añadir_usuario(add_view)
         )
 
-
-
     def refrescar_lista_usuarios(self):
         usuarios = self.modelo.listar()
         self.view.actualizar_lista_usuarios(
