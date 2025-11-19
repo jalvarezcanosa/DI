@@ -4,7 +4,7 @@ from tkinter import messagebox
 from PIL import Image, ImageTk
 
 from model.usuario_model import GestorUsuarios, Usuario
-from view.main_view import MainView, AddUserView
+from view.main_view import MainView, AddUserView, EditUserView
 
 class AppController:
     def __init__(self, master):
@@ -37,6 +37,14 @@ class AppController:
             command=lambda: self.añadir_usuario(add_view)
         )
 
+    def abrir_ventana_editar(self, indice):
+        usuario = self.modelo.obtener(indice)
+        edit_view = EditUserView(self.master, usuario)
+
+        edit_view.guardar_button.configure(
+            command=lambda: self.editar_usuario(edit_view, indice)
+        )
+
     def _on_busqueda_cambio(self, *args):
         self.refrescar_lista_usuarios()
 
@@ -54,7 +62,8 @@ class AppController:
         
         self.view.actualizar_lista_usuarios(
             usuarios_filtrados,
-            self.seleccionar_usuario
+            self.seleccionar_usuario,
+            self.abrir_ventana_editar
         )
         
         total = len(usuarios)
@@ -107,6 +116,32 @@ class AppController:
         self.view.actualizar_status(f"Usuario '{datos['nombre']}' agregado", color="green")
 
         add_view.window.destroy()
+
+    def editar_usuario(self, edit_view: EditUserView, indice: int):
+        datos = edit_view.get_data()
+
+        if datos["nombre"].strip() == "":
+            messagebox.showerror("Error", "El nombre no puede estar vacío.")
+            self.view.actualizar_status("Error: nombre vacío", color="red")
+            return
+
+        try:
+            edad = int(datos["edad"])
+        except ValueError:
+            messagebox.showerror("Error", "La edad debe ser un número.")
+            self.view.actualizar_status("Error: edad no válida", color="red")
+            return
+
+        usuario = self.modelo.obtener(indice)
+        usuario.nombre = datos["nombre"]
+        usuario.edad = edad
+        usuario.genero = datos["genero"]
+        usuario.avatar = datos["avatar"]
+
+        self.refrescar_lista_usuarios()
+        self.view.actualizar_status(f"Usuario '{datos['nombre']}' actualizado", color="green")
+
+        edit_view.window.destroy()
 
     def guardar_usuarios(self):
         try:
