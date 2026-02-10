@@ -31,6 +31,7 @@ public class ProfileFragment extends Fragment {
         super(R.layout.profile_fragment);
     }
 
+    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         TextView profileText = view.findViewById(R.id.ProfileText);
         TextView uidText = view.findViewById(R.id.uidText);

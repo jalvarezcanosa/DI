@@ -11,7 +11,7 @@
         android:id="@+id/tvTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Aula+ — Login "
+        android:text="@string/aula_login"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent"
@@ -25,7 +25,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
-        android:hint="Email"
+        android:hint="@string/email"
         app:boxBackgroundMode="outline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -44,7 +44,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:hint="Contraseña"
+        android:hint="@string/contrase_a"
         app:boxBackgroundMode="outline"
         app:endIconMode="password_toggle"
         app:layout_constraintEnd_toEndOf="parent"
@@ -64,7 +64,7 @@
         android:layout_width="320dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
-        android:text="Entrar"
+        android:text="@string/entrar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tilPass" />
@@ -81,14 +81,14 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="¿No tienes cuenta?"
+        android:text="@string/no_tienes_cuenta"
         />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnGoRegister"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Regístrate"
+        android:text="@string/reg_strate"
         style="@style/Widget.Material3.Button.TextButton"
         />
 </LinearLayout>
